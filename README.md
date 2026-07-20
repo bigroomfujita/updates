@@ -17,6 +17,25 @@ IrucaOrcaアプリ向けの静的なお知らせフィードです。GitHub Page
 
 掲載開始前の項目も公開JSONから閲覧できます。公開前の機密情報や秘密情報は、このリポジトリへコミットしないでください。
 
+## scrollフィード
+
+scrollアプリ向けのカードフィードも本リポジトリから配信します。参照URLは次の固定URLです。
+
+`https://updates.irucaorca.com/scroll/v1/feedcontents.json`
+
+### カードの追加・更新
+
+1. `public/scroll/v1/feedcontents.json`を編集します。カードは`publishedAt`の降順に並べます。
+2. 画像は`public/scroll/v1/images/`に置き、カードの`imagePath`で相対参照します(1枚1MB以下)。
+3. `python3 -m pip install "jsonschema<5"`(初回のみ)ののち`python3 scripts/validate_feedcontents.py`を実行します。
+4. Pull Requestを作成し、検証に成功した変更だけを`main`へマージします。
+
+構造の規則(キー・型・文字数・ジャンル)は`schema/feedcontents-v1.schema.json`が唯一の定義であり、バリデータはこのスキーマ+ファイルシステム検証(画像の実在・サイズ・孤児検出・並び順)を実行します。
+
+### 画像の差し替えルール
+
+**画像を差し替えるときは、必ず新しいファイル名で追加し、旧ファイルを削除します。**アプリは画像をURL単位でキャッシュするため、同じファイル名のまま中身を差し替えると、既存ユーザーには古い画像が表示され続けます。旧ファイルの削除は孤児画像検出(どのカードからも参照されていない画像はCIエラー)により強制されます。
+
 ## 初回セットアップ
 
 - Repository Settings > Pages > Build and deploymentで`GitHub Actions`を選択します。
