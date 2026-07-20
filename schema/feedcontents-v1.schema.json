@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://updates.irucaorca.com/schema/feedcontents-v1.schema.json",
+  "title": "scroll feed contents v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "cards"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "cards": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "genre",
+          "title",
+          "excerpt",
+          "body",
+          "publishedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "genre": {
+            "enum": [
+              "article",
+              "paper",
+              "novel"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "excerpt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          },
+          "imagePath": {
+            "type": "string",
+            "pattern": "^images/[a-z0-9][a-z0-9._-]*\\.(png|jpg|jpeg|webp)$"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
